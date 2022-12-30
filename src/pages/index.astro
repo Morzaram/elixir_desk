@@ -1,0 +1,92 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+// import CardT from "../components/CardT.astro";
+---
+
+<Layout title="Welcome to Astro.">
+  <main>
+    <h1>Welcome to <span class="text-gradient">Elixir Desk</span></h1>
+    <p class="description">
+      Are you looking to master Elixir and its libraries? You've come to the
+      right place. At Elixir Desk, we believe in the power of open source
+      knowledge and strive to provide the best resources for learning Elixir.
+      <br /><br />
+      Our mission is to help developers like you learn and grow with Elixir. Whether
+      you're a beginner looking to get started with the language, or an experienced
+      developer looking to expand your knowledge, we have something for everyone.
+    </p>
+    <ul role="list" class="link-card-grid">
+      <Card
+        href="https://docs.astro.build/"
+        title="Phoenix Recipies"
+        body="Learn the best practices with Phoenix and Ecto"
+      />
+      <Card
+        href="https://astro.build/integrations/"
+        title="Library Interviews"
+        body="A list of library creators and maintainers where we discuss and implement their library"
+      />
+      <Card
+        href="https://astro.build/themes/"
+        title="Blogs & Resources"
+        body="Explore a galaxy of community-built starter themes."
+      />
+      <Card
+        href="https://astro.build/chat/"
+        title="Contibutor Wall"
+        body="Wall of contributors to content pieces on Elixir Desk"
+      />
+      <Card
+        href="https://astro.build/chat/"
+        title="The Elixir Community"
+        body="Come say hi to our amazing community. ❤️"
+      />
+    </ul>
+  </main>
+</Layout>
+
+<style>
+  main {
+    margin: auto;
+    padding: 1.5rem;
+    max-width: 60ch;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0;
+  }
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+  }
+  .description {
+    line-height: 1.6;
+    margin: 1rem 0;
+    border: 1px solid rgba(var(--accent), 25%);
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.4rem;
+  }
+  .description code {
+    font-size: 0.875em;
+    font-weight: bold;
+    background: rgba(var(--accent), 12%);
+    color: rgb(var(--accent));
+    border-radius: 4px;
+    padding: 0.3em 0.45em;
+  }
+  .instructions strong {
+    color: rgb(var(--accent));
+  }
+  .link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
+</style>
