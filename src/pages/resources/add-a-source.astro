@@ -1,0 +1,55 @@
+---
+import NewResourceGenerator from "../../components/NewResourceGenerator.svelte";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Welcome to Astro.">
+  <main>
+    <h1>Welcome to <span class="text-gradient">Elixir Desk</span></h1>
+    <div class="description">
+      <b>Have a resource that you want added to Elixir Desk?</b>
+      <br />
+      <ol>
+        <li>
+          Fill out the form with the necessary information about the resource
+          you want to add.
+        </li>
+        <li>Click the "Copy" button to copy the completed form.</li>
+        <li>Go to the Elixir Desk GitHub repository.</li>
+        <li>Click the "Issues" tab.</li>
+        <li>Click the "New issue" button.</li>
+        <li>
+          In the Title field, enter a brief description of the resource you are
+          adding.
+        </li>
+        <li>
+          In the Comment field, paste the completed form that you copied in step
+          3.
+        </li>
+        <li>
+          Click the "Submit new issue" button to submit your request to add the
+          resource to Elixir Desk.
+        </li>
+      </ol>
+      <br />
+      <p>
+        Please note that you will need a GitHub account to create an issue in
+        the repository.
+      </p>
+    </div>
+    <div class="description">
+      <NewResourceGenerator client:load />
+    </div>
+  </main>
+</Layout>
+
+<style lang="scss">
+  // add bullets to the li
+  ol {
+    list-style-type: decimal;
+    padding: 0 1.5rem;
+  }
+  .description {
+    padding: 1rem;
+  }
+</style>

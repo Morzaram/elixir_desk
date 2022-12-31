@@ -1,7 +1,10 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
-// import CardT from "../components/CardT.astro";
+import Card from "../../components/Card.astro";
+import ResourceCard from "../../components/ResourceCard.astro";
+import Layout from "../../layouts/Layout.astro";
+
+import { Video, videos } from "./data/videos";
+import { Article, articles } from "./data/articles";
 ---
 
 <Layout title="Welcome to Astro.">
@@ -16,8 +19,19 @@ import Card from "../components/Card.astro";
       you're a beginner looking to get started with the language, or an experienced
       developer looking to expand your knowledge, we have something for everyone.
     </p>
+
     <ul role="list" class="link-card-grid">
-      <Card
+      {
+        videos.map((video: Video) => (
+          <ResourceCard
+            href={video.url}
+            title={video.name}
+            body={video.description}
+            createdAt={video.createdAt}
+          />
+        ))
+      }
+      <!-- <Card
         href="https://docs.astro.build/"
         title="Phoenix Recipies"
         body="Learn the best practices with Phoenix and Ecto"
@@ -28,7 +42,7 @@ import Card from "../components/Card.astro";
         body="A list of library creators and maintainers where we discuss and implement their library"
       />
       <Card
-        href="/resources"
+        href="https://astro.build/themes/"
         title="Blogs & Resources"
         body="Explore a galaxy of community-built starter themes."
       />
@@ -46,7 +60,42 @@ import Card from "../components/Card.astro";
         href="https://astro.build/chat/"
         title="Real Elixir Apps & Repos"
         body="Come say hi to our amazing community. ❤️"
-      />
+      /> -->
     </ul>
   </main>
 </Layout>
+
+<style>
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+  }
+  .description {
+    line-height: 1.6;
+    margin: 1rem 0;
+    border: 1px solid rgba(var(--accent), 25%);
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.4rem;
+  }
+  .description code {
+    font-size: 0.875em;
+    font-weight: bold;
+    background: rgba(var(--accent), 12%);
+    color: rgb(var(--accent));
+    border-radius: 4px;
+    padding: 0.3em 0.45em;
+  }
+  .instructions strong {
+    color: rgb(var(--accent));
+  }
+  .link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
+</style>
