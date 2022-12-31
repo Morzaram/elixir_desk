@@ -8,3 +8,11 @@ export enum Tags {
   NervesLivebook = "nerves-livebook",
   Oban = "oban",
 }
+
+export enum Types {
+  Video = "video",
+  Article = "article",
+  Podcast = "podcast",
+  Book = "book",
+  Course = "course",
+}

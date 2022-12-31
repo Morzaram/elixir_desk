@@ -1,6 +1,17 @@
 ---
 import NewResourceGenerator from "../../components/NewResourceGenerator.svelte";
 import Layout from "../../layouts/Layout.astro";
+import { Tags, Types } from "./data/tags";
+const urlParams = Astro.url.searchParams;
+
+const typeValue = urlParams.get("type") as Types;
+let resourceType = Types.Article;
+
+if (typeValue && typeValue in Types) {
+  resourceType = Types[
+    typeValue.toUpperCase() as keyof typeof Types
+  ] as Types.Article;
+}
 ---
 
 <Layout title="Welcome to Astro.">
@@ -38,7 +49,7 @@ import Layout from "../../layouts/Layout.astro";
       </p>
     </div>
     <div class="description">
-      <NewResourceGenerator client:load />
+      <NewResourceGenerator client:only />
     </div>
   </main>
 </Layout>

@@ -1,18 +1,18 @@
 <script lang="ts">
-  enum Types {
-    Video = "video",
-    Article = "article",
-    Podcast = "podcast",
-    Book = "book",
-    Course = "course",
-  }
-  import { Tags } from "../pages/resources/data/tags";
+  import { Tags, Types } from "../pages/resources/data/tags";
+  // get params
+  const params = new URLSearchParams(window.location.search);
 
-  let tags = [] as Tags[];
-  let name = "";
-  let url = "https://";
-  let description = "";
-  let type = Types.Video;
+  let tags = (params.get("tags")?.split(",") as Tags[]) || ([] as Tags[]);
+  let name = params.get("name") || "";
+  let url = params.get("url") || "https://";
+  let description = params.get("description") || "";
+  let type = params.get("type") || Types.Article;
+  let createdAt = params.get("createdAt") || new Date().toISOString();
+
+  window.addEventListener("load", function () {
+    // Code to be executed when the window has finished loading
+  });
   let isComplete = false;
   let validSubmission = false;
 
@@ -35,8 +35,6 @@
 
     setTimeout(() => {
       if (document.querySelectorAll(".error").length > 0) {
-        console.log("error");
-
         return;
       } else {
         navigator.clipboard.writeText(generateJson);
@@ -46,29 +44,60 @@
   };
 
   const handleCreateIssueClick = async () => {
-    await open(generateIssueUrl());
+    isComplete = true;
+
+    setTimeout(() => {
+      if (document.querySelectorAll(".error").length > 0) {
+        return;
+      } else {
+        open(generateIssueUrl());
+
+        validSubmission = true;
+      }
+    }, 100);
   };
 
+  const generateComebackUrl = () => {
+    let comebackUrl = new URL("http://127.0.0.1:3000/resources/add-a-source");
+    let params = new URLSearchParams(comebackUrl.search);
+    params.set("type", type);
+    params.set("name", name);
+    params.set("url", url);
+    params.set("description", description);
+    params.set("createdAt", createdAt);
+    params.set("tags", tags.join(","));
+    return comebackUrl + "?" + params;
+  };
   const generateIssueUrl = () => {
     const title = `New ${type} addition request for ${name}`;
-    const body = `
-     New ${type} addition request for:
-    ${name}
-    ${url}
-    ${description}
-   
-    \`\`\`json
-    ${generateJson}
-    \`\`\`
-    `;
+    const body =
+      `
+New **${type}** addition request for:
+**Name:** ${name}
+**URL:** ${url}
+**Description:** ${description}
+`.trim() +
+      ` ` +
+      `
+\`\`\`json
+${generateJson}
+\`\`\`
 
-    url = `https://github.com/Morzaram/elixir_desk/issues/new?title=${title}&body=${body}`;
+Link to modify the JSON: [here](${generateComebackUrl()}))
+      `;
 
-    return new URL(url);
+    const encodedTitle = title;
+    const encodedBody = body;
+    let githubUrl = new URL(
+      `https://github.com/Morzaram/elixir_desk/issues/new`
+    );
+    githubUrl.searchParams.set("title", encodedTitle);
+    githubUrl.searchParams.set("body", encodedBody);
+    return githubUrl;
   };
 
   $: generateJson = JSON.stringify(
-    { name, url, description, type, tags },
+    { name, url, description, createdAt, tags },
     null,
     "  "
   );
@@ -109,12 +138,19 @@
     name="description"
     id="description"
     bind:value={description}
-    class={description.length < 30 && isComplete ? "error" : ""}
+    class={description.length < 5 && isComplete ? "error" : ""}
+  />
+  <label for="createdAt">Created At</label>
+  <input
+    type="date"
+    name="createdAt"
+    id="createdAt"
+    bind:value={createdAt}
+    class={createdAt.length < 5 && isComplete ? "error" : ""}
   />
 
-  <!-- make checkboxes -->
   <label for="tags">Tags</label>
-  <div id="tags" class={isComplete ? "error" : "" && tags.length == 0}>
+  <div id="tags" class={isComplete && tags.length == 0 ? "error" : ""}>
     {#each Object.values(Tags) as tag}
       <label>
         <input type="checkbox" bind:group={tags} value={tag} />
@@ -123,7 +159,8 @@
     {/each}
   </div>
   <button on:click|preventDefault={handleCopyClick}>Copy</button>
-  <button on:click|preventDefault={handleCopyClick}>Open an issue</button>
+  <button on:click|preventDefault={handleCreateIssueClick}>Open an issue</button
+  >
 </form>
 
 <pre class="bg-white border border-lg p-6 grid place-items-center">
