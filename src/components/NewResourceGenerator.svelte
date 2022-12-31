@@ -58,7 +58,11 @@
   };
 
   const generateComebackUrl = () => {
-    let comebackUrl = new URL("http://127.0.0.1:3000/resources/add-a-source");
+    // let comebackUrl = new URL("http://127.0.0.1:3000/resources/add-a-source");
+    let comebackUrl = new URL(
+      "http://www.elixirdesk.com/resources/new-resource"
+    );
+
     let params = new URLSearchParams(comebackUrl.search);
     params.set("type", type);
     params.set("name", name);
