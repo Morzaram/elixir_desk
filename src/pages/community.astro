@@ -1,0 +1,58 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+// import CardT from "../components/CardT.astro";
+---
+
+<Layout title="Welcome to Astro.">
+  <main>
+    <h1>The <span class="text-gradient">Elixir</span> Community</h1>
+    <p class="description">
+      Are you looking to master Elixir and its libraries? You've come to the
+      right place. At Elixir Desk, we believe in the power of open source
+      knowledge and strive to provide the best resources for learning Elixir.
+      <br /><br />
+      Our mission is to help developers like you learn and grow with Elixir. Whether
+      you're a beginner looking to get started with the language, or an experienced
+      developer looking to expand your knowledge, we have something for everyone.
+    </p>
+    <ul role="list" class="link-card-grid">
+      <Card
+        href="https://elixirforum.com/"
+        title="The Elixir Forum"
+        body="A community forum for discussing, learning and contributing to the Elixir language and its ecosystem."
+      />
+      <Card
+        href="https://elixir-slackin.herokuapp.com/"
+        title="Elixir Slack"
+        body="A very active community of Elixir developers with channels of different libraries and topics"
+      />
+      <Card
+        href="https://discord.gg/elixir"
+        title="Elixir Discord"
+        body="Like slack, but on discord"
+      />
+
+      <Card
+        href="https://www.meetup.com/topics/elixir/"
+        title="Elixir Meetups"
+        body="Meetups being hosted all around the world"
+      />
+      <Card
+        href="https://github.com/elixir-lang/elixir/wiki"
+        title="Elixir Wiki"
+        body="Events and resources maintained by the community"
+      />
+      <Card
+        href="https://twitter.com/elixirlang"
+        title="Elixir's Twitter"
+        body="Often tweets about cool elixir news and events"
+      />
+      <Card
+        href="irc://irc.libera.chat/elixir"
+        title="Libera IRC"
+        body="Like slack, but on Libera"
+      />
+    </ul>
+  </main>
+</Layout>

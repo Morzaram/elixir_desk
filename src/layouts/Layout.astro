@@ -1,4 +1,6 @@
 ---
+import NavBar from "../components/NavBar.svelte";
+
 export interface Props {
   title: string;
 }
@@ -15,100 +17,165 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
+  <NavBar client:only />
+
   <body>
     <slot />
   </body>
+
+  <style is:global>
+    :root {
+      --accent: 159, 64, 199;
+      --accent-gradient: linear-gradient(
+        22deg,
+        rgb(var(--accent)),
+        rgb(238, 0, 255)
+      );
+      --accent-gradient-light: linear-gradient(
+        22deg,
+        rgba(var(--accent), 22%),
+        rgba(238, 0, 255, 22%)
+      );
+    }
+    html {
+      font-family: system-ui, sans-serif;
+      background-color: #f6f6f6;
+    }
+    code {
+      font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
+        DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 0;
+    }
+    h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 0;
+    }
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0;
+    }
+    h4 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin: 0;
+    }
+    h5 {
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 0;
+    }
+    h6 {
+      font-size: 0.875rem;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .description {
+      line-height: 1.6;
+      margin: 1rem 0;
+      border: 1px solid rgba(var(--accent), 25%);
+      background-color: white;
+      padding: 1rem;
+      border-radius: 0.4rem;
+    }
+    .description code {
+      font-size: 0.875em;
+      font-weight: bold;
+      background: rgba(var(--accent), 12%);
+      color: rgb(var(--accent));
+      border-radius: 4px;
+      padding: 0.3em 0.45em;
+    }
+
+    .text-gradient {
+      background-image: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 400%;
+      background-position: 0%;
+    }
+
+    .instructions strong {
+      color: rgb(var(--accent));
+    }
+    .link-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+      gap: 1rem;
+      padding: 0;
+    }
+  </style>
+
+  <style lang="scss">
+    main,
+    body {
+      margin: auto;
+      padding: 1.5rem;
+      max-width: 60ch;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      background-color: white;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 0.4rem;
+      a {
+        color: rgba(0, 0, 0, 0.8);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        transition: color 200ms ease-in-out;
+        &:hover {
+          color: rgb(var(--accent));
+          border-radius: 0.4rem;
+          text-decoration: underline;
+        }
+      }
+      @media only screen and (max-width: 600px) {
+        position: relative;
+        a {
+          display: block;
+          text-align: center;
+          margin: 0;
+          font-size: 1.25rem;
+        }
+        &__toggle {
+          display: none;
+          &[for] {
+            cursor: pointer;
+          }
+          &[id] {
+            display: none;
+          }
+        }
+        &__menu {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background-color: white;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          border-radius: 0.4rem;
+          overflow: hidden;
+          max-height: 0;
+          transition: max-height 200ms ease-in-out;
+          &.active {
+            max-height: 30rem;
+          }
+        }
+      }
+    }
+  </style>
 </html>
-<style is:global>
-  :root {
-    --accent: rgb(159, 64, 199);
-    --accent-gradient: linear-gradient(
-      45deg,
-      var(--accent),
-      rgba(187, 48, 247, 0.953)
-    );
-  }
-  html {
-    font-family: system-ui, sans-serif;
-    background-color: #f6f6f6;
-  }
-  code {
-    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-      DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-  }
-
-  h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    margin: 0;
-  }
-  h2 {
-    font-size: 2rem;
-    font-weight: 800;
-    margin: 0;
-  }
-  h3 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    margin: 0;
-  }
-  h4 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    margin: 0;
-  }
-  h5 {
-    font-size: 1rem;
-    font-weight: 800;
-    margin: 0;
-  }
-  h6 {
-    font-size: 0.875rem;
-    font-weight: 800;
-    margin: 0;
-  }
-
-  .description {
-    line-height: 1.6;
-    margin: 1rem 0;
-    border: 1px solid rgba(var(--accent), 25%);
-    background-color: white;
-    padding: 1rem;
-    border-radius: 0.4rem;
-  }
-  .description code {
-    font-size: 0.875em;
-    font-weight: bold;
-    background: rgba(var(--accent), 12%);
-    color: rgb(var(--accent));
-    border-radius: 4px;
-    padding: 0.3em 0.45em;
-  }
-
-  .text-gradient {
-    background-image: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 400%;
-    background-position: 0%;
-  }
-
-  .instructions strong {
-    color: rgb(var(--accent));
-  }
-  .link-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-    gap: 1rem;
-    padding: 0;
-  }
-</style>
-
-<style lang="scss">
-  main,
-  body {
-    margin: auto;
-    padding: 1.5rem;
-    max-width: 60ch;
-  }
-</style>
