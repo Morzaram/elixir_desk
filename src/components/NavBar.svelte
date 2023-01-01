@@ -60,4 +60,9 @@
   a:hover {
     color: rgb(var(--accent));
   }
+
+  nav {
+    border: 1px solid rgba(var(--accent), 25%);
+    border-radius: 0.5em;
+  }
 </style>
