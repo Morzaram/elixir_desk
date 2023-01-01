@@ -28,5 +28,8 @@
     "flowbite": "^1.5.5",
     "flowbite-svelte": "^0.29.8",
     "sass": "^1.57.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
