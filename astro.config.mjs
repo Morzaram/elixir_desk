@@ -12,6 +12,9 @@ import solidJs from "@astrojs/solid-js";
 import svelte from "@astrojs/svelte";
 
 // https://astro.build/config
+import partytown from "@astrojs/partytown";
+
+// https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), solidJs(), svelte()]
+  integrations: [tailwind(), solidJs(), svelte(), partytown()]
 });
