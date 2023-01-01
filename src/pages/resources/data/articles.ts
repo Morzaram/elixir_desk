@@ -22,6 +22,15 @@ export const articles = [
     description: "In this post, we'll use neural networks in Livebook.",
     createdAt: new Date(2022, 12, 10),
   },
+  {
+  "name": "Securing Elixir/Phoenix Applications: 5 Tips to Get Started",
+  "url": "https://paraxial.io/blog/securing-elixir",
+  "description": "Five recommendations to get started improving the security of your application. ",
+  "createdAt": "2022-11-16",
+  "tags": [
+    "phoenix"
+  ]
+},
 ] as Article[];
 export type Article = {
   name: string;
