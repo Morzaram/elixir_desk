@@ -1,6 +1,5 @@
 <script>
   import { Navbar, NavBrand, NavHamburger, NavUl } from "flowbite-svelte";
-  // import "../js/vendor/flowbite.js";
   const urls = new Map([
     ["Home", "/"],
     ["Communities", "/communities"],
