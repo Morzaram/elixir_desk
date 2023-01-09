@@ -116,7 +116,7 @@ const { title } = Astro.props;
     }
   </style>
 
-  <style lang="scss">
+  <style lang="scss" is:global>
     main,
     body {
       margin: auto;
@@ -178,6 +178,31 @@ const { title } = Astro.props;
             max-height: 30rem;
           }
         }
+      }
+    }
+    .primary-btn {
+      background-color: rgb(var(--accent));
+      color: white;
+      border-radius: 0.4rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 200ms ease-in-out;
+      &:hover {
+        background-color: rgb(159, 7, 170);
+      }
+    }
+    // hide dots on li and ul
+    ul,
+    li {
+      list-style: none;
+      padding: 0.1rem;
+      padding-left: 0.5rem;
+      &:hover {
+        background-color: rgba(var(--accent), 12%);
+        // rounded
+        border-radius: 0.4rem;
       }
     }
   </style>
