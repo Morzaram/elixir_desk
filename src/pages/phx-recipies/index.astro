@@ -1,29 +1,10 @@
 ---
-import _ from "lodash";
+import { makeFileMap, postFilter } from "../../js/utils";
 import Layout from "../../layouts/Layout.astro";
-import { Button } from "flowbite-svelte";
+
 title: "Table of Contents";
-
-const makeFileMap = (post: Record<string, any>) => {
-  const postPath = post.file.split("pages")[1].split(".")[0];
-  const fileRouteArray = postPath.split("/");
-  const fileName = fileRouteArray[fileRouteArray.length - 1].split(".")[0];
-  const postTitle = post.frontmatter.title ?? _.startCase(fileName);
-
-  return {
-    postTitle,
-    postPath,
-  };
-};
-const ectoPosts = await Astro.glob("./ecto/*.md").then((posts) => {
-  return posts.map((post) => makeFileMap(post));
-});
-const ectoAdvancedPosts = await Astro.glob("./ecto/advanced/*.md").then(
-  (posts) => {
-    return posts.map((post) => makeFileMap(post));
-  }
-);
-const phoenixPosts = await Astro.glob("./phoenix/*.md").then((posts) => {
+const cd = "phx-recipies";
+const allPosts = await Astro.glob("./**/*.md").then((posts) => {
   return posts.map((post) => makeFileMap(post));
 });
 ---
@@ -40,37 +21,43 @@ const phoenixPosts = await Astro.glob("./phoenix/*.md").then((posts) => {
     <div class="description">
       <h2>Ecto</h2>
       {
-        ectoPosts.map((post) => {
-          return (
-            <li>
-              <a href={post.postPath}>{post.postTitle}</a>
-            </li>
-          );
-        })
-      }
-      <div class="description">
-        <h3>Advanced</h3>
-        {
-          ectoAdvancedPosts.map((post) => {
+        allPosts
+          .filter((p) => postFilter(p, "/ecto/", cd))
+          .map((post) => {
             return (
               <li>
                 <a href={post.postPath}>{post.postTitle}</a>
               </li>
             );
           })
+      }
+      <div class="description">
+        <h3>Advanced</h3>
+        {
+          allPosts
+            .filter((p) => postFilter(p, "/ecto/advanced/", cd))
+            .map((post) => {
+              return (
+                <li>
+                  <a href={post.postPath}>{post.postTitle}</a>
+                </li>
+              );
+            })
         }
       </div>
     </div>
     <div class="description">
       <h2>Phoenix</h2>
       {
-        phoenixPosts.map((post) => {
-          return (
-            <li class="">
-              <a href={post.postPath}>{post.postTitle}</a>
-            </li>
-          );
-        })
+        allPosts
+          .filter((p) => postFilter(p, "/phoenix/", cd))
+          .map((post) => {
+            return (
+              <li class="">
+                <a href={post.postPath}>{post.postTitle}</a>
+              </li>
+            );
+          })
       }
     </div>
   </div>
