@@ -2,7 +2,7 @@
   import { Navbar, NavBrand, NavHamburger, NavUl } from "flowbite-svelte";
   const urls = new Map([
     ["Home", "/"],
-    ["Communities", "/communities"],
+    ["Communities", "/community"],
     ["Phoenix Recipies", "/phx-recipies"],
   ]);
 </script>

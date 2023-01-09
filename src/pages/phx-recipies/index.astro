@@ -1,0 +1,80 @@
+---
+import _ from "lodash";
+import Layout from "../../layouts/Layout.astro";
+import { Button } from "flowbite-svelte";
+title: "Table of Contents";
+
+const makeFileMap = (post: Record<string, any>) => {
+  console.log(post.file);
+
+  const postPath = post.file.split("pages")[1];
+  const fileRouteArray = postPath.split("/");
+  const fileName = fileRouteArray[fileRouteArray.length - 1].split(".")[0];
+  const postTitle = post.frontmatter.title ?? _.startCase(fileName);
+  console.log(post.frontmatter.title);
+
+  return {
+    postTitle,
+    postPath,
+  };
+};
+const ectoPosts = await Astro.glob("./ecto/*.md").then((posts) => {
+  return posts.map((post) => makeFileMap(post));
+});
+const ectoAdvancedPosts = await Astro.glob("./ecto/advanced/*.md").then(
+  (posts) => {
+    return posts.map((post) => makeFileMap(post));
+  }
+);
+const phoenixPosts = await Astro.glob("./phoenix/*.md").then((posts) => {
+  return posts.map((post) => makeFileMap(post));
+});
+---
+
+<Layout title="Recipies Table of Contents">
+  <div class="description">
+    <h1>Table of Contents</h1>
+    This is where best practices and common patterns are documented. If you'd like
+    to make a contribution feel free to make a pull request
+    <br /><br />
+    <Button href="https://github.com/Morzaram/elixir_desk/pulls"
+      >Add best practice</Button
+    >
+    <div class="description">
+      <h2>Ecto</h2>
+      {
+        ectoPosts.map((post) => {
+          return (
+            <li>
+              <a href={post.postPath}>{post.postTitle}</a>
+            </li>
+          );
+        })
+      }
+      <div class="description">
+        <h3>Advanced</h3>
+        {
+          ectoAdvancedPosts.map((post) => {
+            return (
+              <li>
+                <a href={post.postPath}>{post.postTitle}</a>
+              </li>
+            );
+          })
+        }
+      </div>
+    </div>
+    <div class="description">
+      <h2>Phoenix</h2>
+      {
+        phoenixPosts.map((post) => {
+          return (
+            <li class="">
+              <a href={post.postPath}>{post.postTitle}</a>
+            </li>
+          );
+        })
+      }
+    </div>
+  </div>
+</Layout>
