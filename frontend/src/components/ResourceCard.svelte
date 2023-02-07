@@ -1,25 +1,27 @@
----
-export interface Props {
-  title: string;
-  body: string;
-  href: string;
-  createdAt: string;
-}
-
-const { href, title, body, createdAt } = Astro.props;
----
+<script lang="ts">
+  export let href: string;
+  export let title: string;
+  export let body: string;
+  export let createdAt: string | undefined;
+</script>
 
 <li class="link-card">
-  <a href={href}>
-    <h2>
-      {title}
-      <span>&rarr;</span>
-    </h2>
-    <p>
-      {body}
-    </p>
+  <a {href} target="_blank" rel="noreferrer">
+    <div class="flex flex-row">
+      <h2>
+        {title}
+        <span>&rarr;</span>
+      </h2>
+      {#if createdAt}
+        <span class="ml-2 text-sm text-gray-500">
+          {new Date(createdAt).toDateString()}
+        </span>
+      {/if}
+    </div>
+    <p>{@html body}</p>
   </a>
 </li>
+
 <style>
   .link-card {
     list-style: none;

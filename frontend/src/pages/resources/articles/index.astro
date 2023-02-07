@@ -1,0 +1,80 @@
+---
+import { authPb } from "pocketbase-vite-serverside";
+import { ArticlesResponse, Collections } from "../../../../pocketbase-types";
+import Layout from "../../../layouts/Layout.astro";
+import Card from "../../../components/Card.astro";
+import ResourceCard from "../../../components/ResourceCard.astro";
+
+const articles = await authPb
+  .collection(Collections.Articles)
+  .getFullList<ArticlesResponse>(200, {
+    sort: "-created",
+  });
+
+const mediaList = [...articles].sort((a, b) => {
+  return Date.parse(b.created) - Date.parse(a.created);
+});
+---
+
+<Layout title="Welcome to Astro.">
+  <main>
+    <h1>Welcome to <span class="text-gradient">Elixir Desk</span></h1>
+    <p class="description">
+      Are you looking to master Elixir and its libraries? You've come to the
+      right place. At Elixir Desk, we believe in the power of open source
+      knowledge and strive to provide the best resources for learning Elixir.
+      <br /><br />
+      Our mission is to help developers like you learn and grow with Elixir. Whether
+      you're a beginner looking to get started with the language, or an experienced
+      developer looking to expand your knowledge, we have something for everyone.
+    </p>
+
+    <ul role="list" class="link-card-grid">
+      {
+        mediaList.map((media) => (
+          <ResourceCard
+            href={media.url}
+            title={media.title}
+            body={media.description}
+            createdAt={media.published}
+          />
+        ))
+      }
+    </ul>
+  </main>
+</Layout>
+
+<style>
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+  }
+  .description {
+    line-height: 1.6;
+    margin: 1rem 0;
+    border: 1px solid rgba(var(--accent), 25%);
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.4rem;
+  }
+  .description code {
+    font-size: 0.875em;
+    font-weight: bold;
+    background: rgba(var(--accent), 12%);
+    color: rgb(var(--accent));
+    border-radius: 4px;
+    padding: 0.3em 0.45em;
+  }
+  .instructions strong {
+    color: rgb(var(--accent));
+  }
+  .link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
+</style>
