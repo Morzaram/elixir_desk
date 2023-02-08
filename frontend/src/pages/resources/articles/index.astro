@@ -2,8 +2,8 @@
 import { authPb } from "pocketbase-vite-serverside";
 import { ArticlesResponse, Collections } from "../../../../pocketbase-types";
 import Layout from "../../../layouts/Layout.astro";
-import Card from "../../../components/Card.astro";
-import ResourceCard from "../../../components/ResourceCard.astro";
+
+import ResourceCard from "../../../components/ResourceCard.svelte";
 
 const articles = await authPb
   .collection(Collections.Articles)
