@@ -3,7 +3,7 @@ import { makeFileMap, postFilter } from "../../js/utils";
 import Layout from "../../layouts/Layout.astro";
 
 title: "Table of Contents";
-const cd = "phx-recipies";
+const cd = "recipies";
 const allPosts = await Astro.glob("./**/*.md").then((posts) => {
   return posts.map((post) => makeFileMap(post));
 });
@@ -62,3 +62,11 @@ const allPosts = await Astro.glob("./**/*.md").then((posts) => {
     </div>
   </div>
 </Layout>
+
+<style>
+  /* hover color */
+  a:hover {
+    background-color: #f5f5f5;
+    color: #000;
+  }
+</style>

@@ -200,9 +200,20 @@ const { title } = Astro.props;
       padding: 0.1rem;
       padding-left: 0.5rem;
       &:hover {
-        background-color: rgba(var(--accent), 12%);
-        // rounded
         border-radius: 0.4rem;
+      }
+    }
+
+    a {
+      color: rgba(0, 0, 0, 0.8);
+      text-decoration: none;
+
+      padding: 0.5rem 1rem;
+      transition: color 200ms ease-in-out;
+      &:hover {
+        color: rgb(var(--accent));
+        border-radius: 0.4rem;
+        text-decoration: underline;
       }
     }
   </style>

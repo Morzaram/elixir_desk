@@ -3,7 +3,7 @@
   const urls = new Map([
     ["Home", "/"],
     ["Communities", "/community"],
-    ["Phoenix Recipies", "/phx-recipies"],
+    ["Recipies", "/recipies"],
   ]);
 </script>
 
