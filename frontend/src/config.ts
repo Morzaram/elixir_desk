@@ -1,5 +1,5 @@
 export const dateStringOpts: Intl.DateTimeFormatOptions = {
   year: "numeric",
-  month: "long",
+  month: "short",
   day: "numeric",
 };

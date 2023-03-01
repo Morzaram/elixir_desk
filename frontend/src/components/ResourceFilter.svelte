@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { orderBy } from "lodash";
   import type {
     ArticlesResponse,
     AuthorsResponse,
@@ -22,9 +23,13 @@
   let searchText = "";
 
   const getMedia = async (searchText: string, selectedTags: string[]) => {
-    filteredMedia = mediaList.filter(
-      (media) => isInText(media, searchText) && isInTag(media, selectedTags)
-    );
+    filteredMedia = [
+      ...mediaList
+        .filter(
+          (media) => isInText(media, searchText) && isInTag(media, selectedTags)
+        )
+        .map((m) => ({ ...m })),
+    ];
   };
   const isInText = (media: Media, searchText: string): boolean => {
     return (
@@ -58,8 +63,8 @@
       {/each}
     </div>
   </div>
-  <ul class="link-card-grid">
-    {#each filteredMedia.slice(0, 9) as media}
+  <ul class="flex flex-col space-y-2">
+    {#each filteredMedia as media}
       <ResourceCard {media} />
     {/each}
   </ul>

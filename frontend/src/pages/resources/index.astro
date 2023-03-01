@@ -1,19 +1,11 @@
 ---
 import {
-  ArticlesRecord,
   ArticlesResponse,
   AuthorsResponse,
-  BaseSystemFields,
   Collections,
-  ResourcesRecord,
-  ResourcesResponse,
-  TagsRecord,
   TagsResponse,
-  VideosRecord,
   VideosResponse,
 } from "../../../pocketbase-types";
-import Card from "../../components/Card.astro";
-import ResourceCard from "../../components/ResourceCard.svelte";
 
 import ResourceFilter from "../../components/ResourceFilter.svelte";
 import Layout from "../../layouts/Layout.astro";
@@ -38,7 +30,10 @@ const articles = await authPb
   });
 
 const mediaList = [...articles, ...videos].sort((a, b) => {
-  return Date.parse(b.created) - Date.parse(a.created);
+  if (!a.publishedAt || !b.publishedAt) {
+    return 0;
+  }
+  return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
 });
 
 const tags = await authPb

@@ -6,37 +6,42 @@
     VideosResponse,
   } from "../../pocketbase-types";
 
-  import type { AuthorsRecord } from "../../pocketbase-types";
   import { dateStringOpts } from "../config";
 
   export let media:
     | ArticlesResponse<{ tags: TagsResponse[]; author: AuthorsResponse }>
     | VideosResponse<{ tags: TagsResponse[]; author: AuthorsResponse }>;
-  const author = media.expand?.author;
+  let author;
+  let tags;
+  $: {
+    author = media.expand?.author;
+    tags = media.expand?.tags;
+  }
 </script>
 
 <li class="link-card">
   <a href={media.url} target="_blank" rel="noreferrer">
-    <div class="flex flex-row justify-between">
-      <h2>
+    <div class="grid grid-cols-6">
+      <h2 class="col-span-4">
         {media.title}
-        <span>&rarr;</span>
       </h2>
-      <div class="flex flex-col justify-between space-y-1">
+      <div
+        class="flex flex-col justify-between col-span-2 ml-2 space-y-1 place-self-end"
+      >
         {#if media.publishedAt}
-          <span class="ml-2 text-sm text-gray-500">
+          <span class="text-sm text-gray-500 ">
             {new Intl.DateTimeFormat("en-GB", dateStringOpts).format(
               new Date(media.publishedAt)
             )}
           </span>
         {/if}
         {#if author}
-          <span class="ml-2 text-sm text-gray-500">by {author.name}</span>
+          <span class="text-sm text-gray-500 "> {author.name}</span>
         {/if}
         <div id="tags">
-          {#if media.expand?.tags}
-            {#each media.expand?.tags as tag}
-              <span class="p-1 ml-2 text-sm text-white bg-gray-700 rounded-sm"
+          {#if tags}
+            {#each tags as tag}
+              <span class="p-1 text-sm text-white bg-gray-700 rounded-sm"
                 >{tag.name}</span
               >
             {/each}
