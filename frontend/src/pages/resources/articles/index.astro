@@ -1,18 +1,28 @@
 ---
 import { authPb } from "pocketbase-vite-serverside";
-import { ArticlesResponse, Collections } from "../../../../pocketbase-types";
+import {
+  ArticlesResponse,
+  AuthorsResponse,
+  Collections,
+  TagsResponse,
+} from "../../../../pocketbase-types";
 import Layout from "../../../layouts/Layout.astro";
-
 import ResourceCard from "../../../components/ResourceCard.svelte";
 
 const articles = await authPb
   .collection(Collections.Articles)
-  .getFullList<ArticlesResponse>(200, {
+  .getFullList<
+    ArticlesResponse<{ tags: TagsResponse[]; author: AuthorsResponse }>
+  >(200, {
     sort: "-created",
   });
 
 const mediaList = [...articles].sort((a, b) => {
-  return Date.parse(b.created) - Date.parse(a.created);
+  if (a.publishedAt && b.publishedAt) {
+    return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
+  } else {
+    return 0;
+  }
 });
 ---
 
@@ -30,16 +40,7 @@ const mediaList = [...articles].sort((a, b) => {
     </p>
 
     <ul role="list" class="link-card-grid">
-      {
-        mediaList.map((media) => (
-          <ResourceCard
-            href={media.url}
-            title={media.title}
-            body={media.description}
-            createdAt={media.published}
-          />
-        ))
-      }
+      <!-- {mediaList.map((media) => <ResourceCard {media} />)} -->
     </ul>
   </main>
 </Layout>

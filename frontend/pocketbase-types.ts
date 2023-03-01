@@ -39,11 +39,14 @@ export type ArticlesRecord = {
 	url: string
 	tags: RecordIdString[]
 	description: string
-	published?: IsoDateString
+	publishedAt?: IsoDateString
+	author: RecordIdString
 }
 
 export type AuthorsRecord = {
 	name: string
+	articles?: RecordIdString[]
+	videoes?: RecordIdString[]
 }
 
 export type ResourcesRecord = {
@@ -66,12 +69,13 @@ export type VideosRecord = {
 	url: string
 	tags: RecordIdString[]
 	description: string
-	published?: IsoDateString
+	publishedAt?: IsoDateString
+	author: RecordIdString
 }
 
 // Response types include system fields and match responses from the PocketBase API
 export type ArticlesResponse<Texpand = unknown> = ArticlesRecord & BaseSystemFields<Texpand>
-export type AuthorsResponse = AuthorsRecord & BaseSystemFields
+export type AuthorsResponse<Texpand = unknown> = AuthorsRecord & BaseSystemFields<Texpand>
 export type ResourcesResponse = ResourcesRecord & BaseSystemFields
 export type TagsResponse = TagsRecord & BaseSystemFields
 export type UsersResponse = UsersRecord & AuthSystemFields

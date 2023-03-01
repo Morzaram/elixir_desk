@@ -1,12 +1,10 @@
 ---
-import { makeFileMap, postFilter } from "../../js/utils";
+import { getCollection } from "astro:content";
+
 import Layout from "../../layouts/Layout.astro";
 
-title: "Table of Contents";
-const cd = "recipies";
-const allPosts = await Astro.glob("./**/*.md").then((posts) => {
-  return posts.map((post) => makeFileMap(post));
-});
+const posts = await getCollection("recipies");
+const currentPath = `${Astro.url.pathname}/`;
 ---
 
 <Layout title="Recipies Table of Contents">
@@ -19,14 +17,30 @@ const allPosts = await Astro.glob("./**/*.md").then((posts) => {
       >Add best practice</a
     >
     <div class="description">
+      <h2>Phoenix</h2>
+      {
+        posts
+          .filter((p) => p.slug.includes("phoenix/"))
+          .map((post) => {
+            return (
+              <li class="">
+                <a href={currentPath + post.slug}>{post.data.title}</a>
+              </li>
+            );
+          })
+      }
+    </div>
+    <div class="description">
       <h2>Ecto</h2>
       {
-        allPosts
-          .filter((p) => postFilter(p, "/ecto/", cd))
+        posts
+          .filter(
+            (p) => p.slug.includes("ecto/") && p.slug.split("/").length === 2
+          )
           .map((post) => {
             return (
               <li>
-                <a href={post.postPath}>{post.postTitle}</a>
+                <a href={currentPath + post.slug}>{post.data.title}</a>
               </li>
             );
           })
@@ -34,39 +48,24 @@ const allPosts = await Astro.glob("./**/*.md").then((posts) => {
       <div class="description">
         <h3>Advanced</h3>
         {
-          allPosts
-            .filter((p) => postFilter(p, "/ecto/advanced/", cd))
+          posts
+            .filter((p) => p.slug.includes("ecto/advanced/"))
             .map((post) => {
               return (
                 <li>
-                  <a href={post.postPath}>{post.postTitle}</a>
+                  <a href={currentPath + post.slug}>{post.data.title}</a>
                 </li>
               );
             })
         }
       </div>
     </div>
-    <div class="description">
-      <h2>Phoenix</h2>
-      {
-        allPosts
-          .filter((p) => postFilter(p, "/phoenix/", cd))
-          .map((post) => {
-            return (
-              <li class="">
-                <a href={post.postPath}>{post.postTitle}</a>
-              </li>
-            );
-          })
-      }
-    </div>
   </div>
+  <style>
+    /* hover color */
+    a:hover {
+      background-color: #f5f5f5;
+      color: #000;
+    }
+  </style>
 </Layout>
-
-<style>
-  /* hover color */
-  a:hover {
-    background-color: #f5f5f5;
-    color: #000;
-  }
-</style>

@@ -1,54 +1,66 @@
 <script lang="ts">
   import type {
-    ArticlesRecord,
     ArticlesResponse,
-    BaseSystemFields,
-    TagsRecord,
+    AuthorsResponse,
     TagsResponse,
-    VideosRecord,
     VideosResponse,
   } from "../../pocketbase-types";
   import ResourceCard from "./ResourceCard.svelte";
 
-  export let mediaList:
-    | ArticlesResponse<{ tags: TagsResponse[] }>[]
-    | VideosResponse<{ tags: TagsResponse[] }>[];
+  type MediaList = Media[];
+
+  type Media =
+    | ArticlesResponse<{ tags: TagsResponse[]; author: AuthorsResponse }>
+    | VideosResponse<{ tags: TagsResponse[]; author: AuthorsResponse }>;
+
+  export let mediaList: MediaList;
 
   export let tags: TagsResponse[] = [];
-  let selectedTags = tags.map((tag) => tag.id);
+  let filteredMedia: MediaList = mediaList;
 
-  const getMedia = () => {
-    mediaList = mediaList.filter((media) => {
-      return (
-        media.expand?.tags.some((tag) => selectedTags.includes(tag.id)) !=
-        undefined
-      );
-    });
+  let selectedTags = tags.map((tag) => tag.id);
+  let searchText = "";
+
+  const getMedia = async (searchText: string, selectedTags: string[]) => {
+    filteredMedia = mediaList.filter(
+      (media) => isInText(media, searchText) && isInTag(media, selectedTags)
+    );
   };
+  const isInText = (media: Media, searchText: string): boolean => {
+    return (
+      media.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      media.description.toLowerCase().includes(searchText.toLowerCase())
+    );
+  };
+  const isInTag = (media: Media, selectedTags: string[]): boolean => {
+    return (
+      media.expand?.tags.some((tag) => selectedTags.includes(tag.id)) || false
+    );
+  };
+
+  $: getMedia(searchText, selectedTags);
 </script>
 
 <div>
-  <div class="px-2">
-    <input type="text" placeholder="Search" />
-    {#each tags as tag}
-      <label class="flex items-center">
-        <input
-          type="checkbox"
-          bind:group={selectedTags}
-          value={selectedTags.find((t) => t === tag.id) !== undefined}
-        />
-        <span class="ml-2">{tag.name}</span>
-      </label>
-    {/each}
+  <div class="px-2 space-y-2">
+    <input type="text" placeholder="Search" bind:value={searchText} />
+    <div id="tag-filter" class="grid grid-cols-3">
+      {#each tags as tag}
+        <label class="flex items-center">
+          <input
+            type="checkbox"
+            name="selectedTags"
+            bind:group={selectedTags}
+            value={tag.id}
+          />
+          <span class="ml-2">{tag.name}</span>
+        </label>
+      {/each}
+    </div>
   </div>
   <ul class="link-card-grid">
-    {#each mediaList as media}
-      <ResourceCard
-        href={media.url}
-        title={media.title}
-        body={media.description}
-        createdAt={media.published}
-      />
+    {#each filteredMedia.slice(0, 9) as media}
+      <ResourceCard {media} />
     {/each}
   </ul>
 </div>

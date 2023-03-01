@@ -2,6 +2,7 @@
 import {
   ArticlesRecord,
   ArticlesResponse,
+  AuthorsResponse,
   BaseSystemFields,
   Collections,
   ResourcesRecord,
@@ -20,16 +21,20 @@ import { authPb } from "pocketbase-vite-serverside";
 
 const videos = await authPb
   .collection(Collections.Videos)
-  .getFullList<VideosResponse<{ tags: TagsResponse[] }>>(200, {
+  .getFullList<
+    VideosResponse<{ tags: TagsResponse[]; author: AuthorsResponse }>
+  >(200, {
     sort: "-created",
-    expand: "tags",
+    expand: "tags, author",
   });
 
 const articles = await authPb
   .collection(Collections.Articles)
-  .getFullList<ArticlesResponse<{ tags: TagsResponse[] }>>(200, {
+  .getFullList<
+    ArticlesResponse<{ tags: TagsResponse[]; author: AuthorsResponse }>
+  >(200, {
     sort: "-created",
-    expand: "tags",
+    expand: "tags, author",
   });
 
 const mediaList = [...articles, ...videos].sort((a, b) => {
@@ -47,11 +52,11 @@ const tags = await authPb
   <main>
     <h1><span class="text-gradient">Resources</span></h1>
     <p class="description">
-      Here you will find a collection of resources that have been made by the
-      elixir community
+      Here you will find a collection of videos and articles that have been made
+      by the Elixir Community
     </p>
 
-    <ResourceFilter mediaList={mediaList} tags={tags} />
+    <ResourceFilter client:load mediaList={mediaList} tags={tags} />
   </main>
 </Layout>
 

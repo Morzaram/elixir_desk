@@ -2,7 +2,7 @@
   import { Navbar, NavBrand, NavHamburger, NavUl } from "flowbite-svelte";
   const urls = new Map([
     ["Home", "/"],
-    ["Communities", "/community"],
+    ["Resources", "/resources"],
     ["Recipies", "/recipies"],
   ]);
 </script>
@@ -13,7 +13,7 @@
   <div class="container flex flex-wrap items-center justify-between mx-auto">
     <NavBrand href="/">
       <span
-        class="self-center whitespace-nowrap text-xl font-semibold dark:text-white text-gradient"
+        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white text-gradient"
       >
         Elixir Desk
       </span>

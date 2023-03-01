@@ -16,37 +16,29 @@ import Card from "../components/Card.astro";
       you're a beginner looking to get started with the language, or an experienced
       developer looking to expand your knowledge, we have something for everyone.
     </p>
-    <ul role="list" class="link-card-grid">
+    <ul role="list" class="flex flex-col space-y-2">
       <Card
         href="/recipies"
         title="Recipies"
-        body="Learn the best practices with Phoenix and Ecto"
+        body="Learn the best practices of Elixir and Libraries"
       />
-      <!-- <Card
-        href="https://astro.build/integrations/"
-        title="Library Interviews"
-        body="A list of library creators and maintainers where we discuss and implement their library"
-      /> -->
+
       <Card
         href="/resources"
-        title="Blogs & Resources"
-        body="Explore a galaxy of community-built starter themes."
+        title="Resources"
+        body="Videos and Articles by the Elixir Community "
       />
-      <!-- <Card
-        href="https://astro.build/chat/"
-        title="Contibutor Wall"
-        body="Wall of contributors to content pieces on Elixir Desk"
-      /> -->
+
       <Card
         href="/community"
         title="Elixir Community"
         body="A list of all of all official Elixir online communities"
       />
-      <Card
+      <!-- <Card
         href="https://astro.build/chat/"
-        title="Real Elixir Apps & Repos"
+        title="Real World Projects"
         body="Come say hi to our amazing community. ❤️"
-      />
+      /> -->
     </ul>
   </main>
 </Layout>
