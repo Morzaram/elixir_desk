@@ -7,6 +7,12 @@ on:
   pull_request:
     branches: ["main"]
 
+env:
+  PB_PASSWORD: "${{ secrets.PB_PASSWORD }}"
+  PB_USERNAME: "${{ secrets.PB_USERNAME }}"
+  PB_URL: "${{ secrets.PB_URL }}"
+  PB_AUTH_METHOD: "${{ secrets.PB_AUTH_METHOD }}"
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
