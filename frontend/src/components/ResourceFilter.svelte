@@ -18,7 +18,10 @@
   export let tags: TagsResponse[] = [];
   let filteredMedia: MediaList = mediaList;
 
-  let selectedTags = tags.map((tag) => tag.id);
+  let selectedTags = tags
+    .filter((tag) => ["Phoenix", "Liveview"].includes(tag.name))
+    .map((tag) => tag.id);
+
   let searchText = "";
 
   const getMedia = async (searchText: string, selectedTags: string[]) => {
@@ -57,7 +60,12 @@
             bind:group={selectedTags}
             value={tag.id}
           />
-          <span class="ml-2">{tag.name}</span>
+          <button
+            class="p-1 rounded-md hover:bg-gray-300"
+            on:click={() => {
+              selectedTags = [tag.id];
+            }}>{tag.name}</button
+          >
         </label>
       {/each}
     </div>
