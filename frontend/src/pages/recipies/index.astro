@@ -3,7 +3,10 @@ import { getCollection } from "astro:content";
 
 import Layout from "../../layouts/Layout.astro";
 
-const posts = await getCollection("recipies");
+const posts = await getCollection("recipies").then((posts) =>
+  posts.filter((p) => p.body !== "")
+);
+
 const currentPath = `${Astro.url.pathname}/`;
 ---
 

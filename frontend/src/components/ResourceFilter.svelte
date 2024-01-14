@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { orderBy } from "lodash";
   import type {
     ArticlesResponse,
     AuthorsResponse,
